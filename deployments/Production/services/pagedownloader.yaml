@@ -1,19 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pagedownloader-worker
+  name: pagedownloader-worker-deployment
   namespace: services
-  labels:
-    app: pagedownloader-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pagedownloader-worker
+      app: pagedownloader-worker-pod
   template:
     metadata:
       labels:
-        app: pagedownloader-worker
+        app: pagedownloader-worker-pod
     spec:
       containers:
       - name: pagedownloader-worker

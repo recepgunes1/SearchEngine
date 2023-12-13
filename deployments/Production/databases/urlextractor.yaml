@@ -12,19 +12,17 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: urlextractor-database
+  name: urlextractor-database-deployment
   namespace: databases
-  labels:
-    app: urlextractor-database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: urlextractor-database
+      app: urlextractor-database-pod
   template:
     metadata:
       labels:
-        app: urlextractor-database
+        app: urlextractor-database-pod
     spec:
       containers:
       - name: urlextractor-database
@@ -56,7 +54,7 @@ metadata:
   namespace: databases
 spec:
   selector:
-    app: urlextractor-database
+    app: urlextractor-database-pod
   type: NodePort
   ports:
     - port: 5432

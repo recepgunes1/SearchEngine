@@ -3,7 +3,12 @@
     {
       "DownstreamPathTemplate": "/api/Url/register",
       "DownstreamScheme": "http",
-      "ServiceName": "urlregister-api-service",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "urlregister-api-service.services.svc.cluster.local",
+          "Port": 8080
+        }
+      ],
       "UpstreamPathTemplate": "/register",
       "UpstreamHttpMethod": [
         "POST"
@@ -12,7 +17,12 @@
     {
       "DownstreamPathTemplate": "/api/Url/search",
       "DownstreamScheme": "http",
-      "ServiceName": "searchhub-api-service",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "searchhub-api-service.services.svc.cluster.local",
+          "Port": 8080
+        }
+      ],
       "UpstreamPathTemplate": "/search",
       "UpstreamHttpMethod": [
         "GET"
@@ -21,17 +31,16 @@
     {
       "DownstreamPathTemplate": "/api/Url/suggest",
       "DownstreamScheme": "http",
-      "ServiceName": "searchhub-api-service",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "searchhub-api-service.services.svc.cluster.local",
+          "Port": 8080
+        }
+      ],
       "UpstreamPathTemplate": "/suggest",
       "UpstreamHttpMethod": [
         "GET"
       ]
     }
-  ],
-  "GlobalConfiguration": {
-    "ServiceDiscoveryProvider": {
-      "Namespace": "services",
-      "Type": "pollkube"
-    }
-  }
+  ]
 }

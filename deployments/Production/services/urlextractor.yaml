@@ -1,19 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: urlextractor-worker
+  name: urlextractor-worker-deployment
   namespace: services
-  labels:
-    app: urlextractor-worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: urlextractor-worker
+      app: urlextractor-worker-pod
   template:
     metadata:
       labels:
-        app: urlextractor-worker
+        app: urlextractor-worker-pod
     spec:
       containers:
       - name: urlextractor-worker

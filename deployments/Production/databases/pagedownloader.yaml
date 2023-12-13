@@ -12,19 +12,17 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pagedownloader-database
+  name: pagedownloader-database-deployment
   namespace: databases
-  labels:
-    app: pagedownloader-database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pagedownloader-database
+      app: pagedownloader-database-pod
   template:
     metadata:
       labels:
-        app: pagedownloader-database
+        app: pagedownloader-database-pod
     spec:
       containers:
       - name: pagedownloader-database
@@ -56,7 +54,7 @@ metadata:
   namespace: databases
 spec:
   selector:
-    app: pagedownloader-database
+    app: pagedownloader-database-pod
   type: NodePort
   ports:
     - port: 5432

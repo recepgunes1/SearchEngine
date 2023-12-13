@@ -1,19 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: urlregister-api
+  name: urlregister-api-deployment
   namespace: services
-  labels:
-    app: urlregister-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: urlregister-api
+      app: urlregister-api-pod
   template:
     metadata:
       labels:
-        app: urlregister-api
+        app: urlregister-api-pod
     spec:
       containers:
       - name: urlregister-api
@@ -30,7 +28,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: urlregister.api
+    app: urlregister-api-pod
   ports:
   - protocol: TCP
     port: 8080

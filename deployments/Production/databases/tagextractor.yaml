@@ -12,19 +12,17 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tagextractor-database
+  name: tagextractor-database-deployment
   namespace: databases
-  labels:
-    app: tagextractor-database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tagextractor-database
+      app: tagextractor-database-pod
   template:
     metadata:
       labels:
-        app: tagextractor-database
+        app: tagextractor-database-pod
     spec:
       containers:
       - name: tagextractor-database
@@ -56,7 +54,7 @@ metadata:
   namespace: databases
 spec:
   selector:
-    app: tagextractor-database
+    app: tagextractor-database-pod
   type: NodePort
   ports:
     - port: 5432

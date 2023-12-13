@@ -1,19 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: searchhub-api
+  name: searchhub-api-deployment
   namespace: services
-  labels:
-    app: searchhub-api
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: searchhub-api
+      app: searchhub-api-pod
   template:
     metadata:
       labels:
-        app: searchhub-api
+        app: searchhub-api-pod
     spec:
       containers:
       - name: searchhub-api
@@ -30,7 +28,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: searchhub.api
+    app: searchhub-api-pod
   ports:
   - protocol: TCP
     port: 8080

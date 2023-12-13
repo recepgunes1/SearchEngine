@@ -12,19 +12,17 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: urlregister-database
+  name: urlregister-database-deployment
   namespace: databases
-  labels:
-    app: urlregister-database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: urlregister-database
+      app: urlregister-database-pod
   template:
     metadata:
       labels:
-        app: urlregister-database
+        app: urlregister-database-pod
     spec:
       containers:
       - name: urlregister-database
@@ -56,7 +54,7 @@ metadata:
   namespace: databases
 spec:
   selector:
-    app: urlregister-database
+    app: urlregister-database-pod
   type: NodePort
   ports:
     - port: 5432
