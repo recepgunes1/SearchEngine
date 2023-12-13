@@ -3,7 +3,7 @@
 
 services:
   gateway.webapi:
-    image: gateway.webapi
+    image: searchengine/gateway.webapi
     build:
       context: .
       dockerfile: services/Gateway/Gateway.WebAPI/Dockerfile
@@ -16,7 +16,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
 
   urlregister.webapi:
-    image: urlregister.webapi
+    image: searchengine/urlregister.webapi
     build:
       context: .
       dockerfile: services/UrlRegister/UrlRegister.WebAPI/Dockerfile
@@ -29,7 +29,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
 
   searchhub.webapi:
-    image: searchhub.webapi
+    image: searchengine/searchhub.webapi
     build:
       context: .
       dockerfile: services/SearchHub/SearchHub.WebAPI/Dockerfile
@@ -42,7 +42,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
 
   pagedownloader.worker:
-    image: pagedownloader.worker
+    image: searchengine/pagedownloader.worker
     build:
       context: .
       dockerfile: services/PageDownloader/PageDownloader.Worker/Dockerfile
@@ -52,7 +52,7 @@ services:
       - DOTNET_ENVIRONMENT=${ENVIRONMENT}
 
   tagextractor.worker:
-    image: tagextractor.worker
+    image: searchengine/tagextractor.worker
     build:
       context: .
       dockerfile: services/TagExtractor/TagExtractor.Worker/Dockerfile
@@ -62,7 +62,7 @@ services:
       - DOTNET_ENVIRONMENT=${ENVIRONMENT}
 
   urlextractor.worker:
-    image: urlextractor.worker
+    image: searchengine/urlextractor.worker
     build:
       context: .
       dockerfile: services/UrlExtractor/UrlExtractor.Worker/Dockerfile
