@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: urlextractor-worker
+  namespace: services
+  labels:
+    app: urlextractor-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: urlextractor-worker
+  template:
+    metadata:
+      labels:
+        app: urlextractor-worker
+    spec:
+      containers:
+      - name: urlextractor-worker
+        image: searchengine/urlextractor.worker
+        imagePullPolicy: Never

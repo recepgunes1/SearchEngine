@@ -1,0 +1,37 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/Url/register",
+      "DownstreamScheme": "http",
+      "ServiceName": "urlregister-api-service",
+      "UpstreamPathTemplate": "/register",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Url/search",
+      "DownstreamScheme": "http",
+      "ServiceName": "searchhub-api-service",
+      "UpstreamPathTemplate": "/search",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Url/suggest",
+      "DownstreamScheme": "http",
+      "ServiceName": "searchhub-api-service",
+      "UpstreamPathTemplate": "/suggest",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "ServiceDiscoveryProvider": {
+      "Namespace": "services",
+      "Type": "pollkube"
+    }
+  }
+}

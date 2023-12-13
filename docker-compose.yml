@@ -1,0 +1,72 @@
+﻿networks:
+  backend:
+
+services:
+  gateway.webapi:
+    image: gateway.webapi
+    build:
+      context: .
+      dockerfile: services/Gateway/Gateway.WebAPI/Dockerfile
+    ports:
+      - "5010:8080"
+      - "5011:8081"
+    networks:
+      - backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
+
+  urlregister.webapi:
+    image: urlregister.webapi
+    build:
+      context: .
+      dockerfile: services/UrlRegister/UrlRegister.WebAPI/Dockerfile
+    ports:
+      - "5020:8080"
+      - "5021:8081"
+    networks:
+      - backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
+
+  searchhub.webapi:
+    image: searchhub.webapi
+    build:
+      context: .
+      dockerfile: services/SearchHub/SearchHub.WebAPI/Dockerfile
+    ports:
+      - "5030:8080"
+      - "5031:8081"
+    networks:
+      - backend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
+
+  pagedownloader.worker:
+    image: pagedownloader.worker
+    build:
+      context: .
+      dockerfile: services/PageDownloader/PageDownloader.Worker/Dockerfile
+    networks:
+      - backend
+    environment:
+      - DOTNET_ENVIRONMENT=${ENVIRONMENT}
+
+  tagextractor.worker:
+    image: tagextractor.worker
+    build:
+      context: .
+      dockerfile: services/TagExtractor/TagExtractor.Worker/Dockerfile
+    networks:
+      - backend
+    environment:
+      - DOTNET_ENVIRONMENT=${ENVIRONMENT}
+
+  urlextractor.worker:
+    image: urlextractor.worker
+    build:
+      context: .
+      dockerfile: services/UrlExtractor/UrlExtractor.Worker/Dockerfile
+    networks:
+      - backend
+    environment:
+      - DOTNET_ENVIRONMENT=${ENVIRONMENT}

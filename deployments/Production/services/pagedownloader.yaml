@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pagedownloader-worker
+  namespace: services
+  labels:
+    app: pagedownloader-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pagedownloader-worker
+  template:
+    metadata:
+      labels:
+        app: pagedownloader-worker
+    spec:
+      containers:
+      - name: pagedownloader-worker
+        image: searchengine/pagedownloader.worker
+        imagePullPolicy: Never

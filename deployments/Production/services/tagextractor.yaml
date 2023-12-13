@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tagextractor-worker
+  namespace: services
+  labels:
+    app: tagextractor-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tagextractor-worker
+  template:
+    metadata:
+      labels:
+        app: tagextractor-worker
+    spec:
+      containers:
+      - name: tagextractor-worker
+        image: searchengine/tagextractor.worker
+        imagePullPolicy: Never

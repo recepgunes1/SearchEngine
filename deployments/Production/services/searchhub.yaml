@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchhub-api
+  namespace: services
+  labels:
+    app: searchhub-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: searchhub-api
+  template:
+    metadata:
+      labels:
+        app: searchhub-api
+    spec:
+      containers:
+      - name: searchhub-api
+        image: searchengine/searchhub.webapi
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080       
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: services
+  name: searchhub-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: searchhub.api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080

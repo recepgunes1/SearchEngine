@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: urlregister-api
+  namespace: services
+  labels:
+    app: urlregister-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: urlregister-api
+  template:
+    metadata:
+      labels:
+        app: urlregister-api
+    spec:
+      containers:
+      - name: urlregister-api
+        image: searchengine/urlregister.webapi
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080       
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: services
+  name: urlregister-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: urlregister.api
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+    name: http
+
