@@ -5,12 +5,12 @@ using Shared.DTOs;
 
 namespace SearchHub.Infrastructure.Services;
 
-public class SearchService : ISearchService
+public class ElasticService : IElasticService
 {
     private const string IndexName = "link_and_tags";
     private readonly ElasticClient _client;
 
-    public SearchService(IConfiguration configuration)
+    public ElasticService(IConfiguration configuration)
     {
         var uri = new Uri(configuration.GetConnectionString("ElasticSearch") ?? throw new ArgumentNullException());
         var settings = new ConnectionSettings(uri)
@@ -55,6 +55,11 @@ public class SearchService : ISearchService
                 Link = p.Link,
                 InnerText = p.InnerText?.Substring(0, 128) ?? string.Empty
             });
+    }
+
+    public Task Insert(ElasticTag elasticTag)
+    {
+        return Console.Out.WriteLineAsync($"{elasticTag.Link}--{elasticTag.Title}");
     }
 
     public async Task<IEnumerable<string>> SuggestTitle(string input)

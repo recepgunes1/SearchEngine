@@ -6,13 +6,13 @@ namespace SearchHub.WebAPI.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class UrlController(ISearchService searchService) : Controller
+public class UrlController(IElasticService elasticService) : Controller
 {
     [HttpGet]
     [Route("search")]
     public async Task<IActionResult> Search([FromQuery] SearchUrlDto searchUrlDto)
     {
-        var result = await searchService.Search(searchUrlDto);
+        var result = await elasticService.Search(searchUrlDto);
         return Ok(result);
     }
 
@@ -20,7 +20,7 @@ public class UrlController(ISearchService searchService) : Controller
     [Route("suggest")]
     public async Task<IActionResult> Suggest(string input)
     {
-        var result = await searchService.SuggestTitle(input);
+        var result = await elasticService.SuggestTitle(input);
         return Ok(result);
     }
 }

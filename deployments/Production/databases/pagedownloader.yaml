@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: poagedownloader-database-secret
+  name: pagedownloader-database-secret
   namespace: databases
 type: Opaque
 data:
@@ -26,25 +26,25 @@ spec:
     spec:
       containers:
       - name: pagedownloader-database
-        image: postgres:16.0
-        imagePullPolicy: IfNotPresent
+        image: searchengine/pagedownloader.database
+        imagePullPolicy: Never
         ports:
         - containerPort: 5432
         env:
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
-              name: poagedownloader-database-secret
+              name: pagedownloader-database-secret
               key: username
         - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: poagedownloader-database-secret
+              name: pagedownloader-database-secret
               key: password
         - name: POSTGRES_DB
           valueFrom:
             secretKeyRef:
-              name: poagedownloader-database-secret
+              name: pagedownloader-database-secret
               key: database
 ---
 apiVersion: v1

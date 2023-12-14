@@ -3,11 +3,12 @@ networks:
 
 services:
   urlregister.database:
-    image: postgres:16.0
+    image: searchengine/urlregister.database
+    build:
+      context: ./deployments/Scripts/UrlRegister
+      dockerfile: Dockerfile
     ports:
       - "5432:5432"
-    volumes:
-      - ./deployments/Scripts/UrlRegister:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password123.
@@ -17,11 +18,12 @@ services:
       - backend
 
   pagedownloader.database:
-    image: postgres:16.0
+    image: searchengine/pagedownloader.database
+    build:
+      context: ./deployments/Scripts/PageDownloader
+      dockerfile: Dockerfile
     ports:
       - "5433:5432"
-    volumes:
-      - ./deployments/Scripts/PageDownloader:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password123.
@@ -42,18 +44,16 @@ services:
       POSTGRES_PASSWORD: Password123.
       POSTGRES_DB: UrlExtractor
       POSTGRES_HOST_AUTH_METHOD: trust
-    depends_on:
-      - pagedownloader.database
-      - tagextractor.database
     networks:
       - backend
 
   tagextractor.database:
-    image: postgres:16.0
+    image: searchengine/tagextractor.database
+    build:
+      context: ./deployments/Scripts/TagExtractor
+      dockerfile: Dockerfile
     ports:
       - "5435:5432"
-    volumes:
-      - ./deployments/Scripts/TagExtractor:/docker-entrypoint-initdb.d
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password123.
@@ -68,22 +68,9 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
       - ES_JAVA_OPTS=-Xms2g -Xmx2g
-    volumes:
-      - ./deployments/Scripts/Elasticsearch/init_mapping.sh:/usr/share/elasticsearch/init-scripts/init_mapping.sh
     ports:
       - "9200:9200"
       - "9300:9300"
-    networks:
-      - backend
-  
-  logstash:
-    image: searchengine/logstash
-    build:
-      context: ./deployments/Scripts/Logstash
-      dockerfile: Dockerfile
-    depends_on:
-      - elasticsearch
-      - urlextractor.database
     networks:
       - backend
   

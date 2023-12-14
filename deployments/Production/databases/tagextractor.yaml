@@ -26,8 +26,8 @@ spec:
     spec:
       containers:
       - name: tagextractor-database
-        image: postgres:16.0
-        imagePullPolicy: IfNotPresent
+        image: searchengine/tagextractor.database
+        imagePullPolicy: Never
         ports:
         - containerPort: 5432
         env:
