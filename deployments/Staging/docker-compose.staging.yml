@@ -5,7 +5,7 @@ services:
   urlregister.database:
     image: searchengine/urlregister.database
     build:
-      context: ../Scripts/UrlRegister
+      context: ./deployments/Scripts/UrlRegister
       dockerfile: Dockerfile
     ports:
       - "5432:5432"
@@ -20,7 +20,7 @@ services:
   pagedownloader.database:
     image: searchengine/pagedownloader.database
     build:
-      context: ../Scripts/PageDownloader
+      context: ./deployments/Scripts/PageDownloader
       dockerfile: Dockerfile
     ports:
       - "5433:5432"
@@ -35,7 +35,7 @@ services:
   urlextractor.database:
     image: searchengine/urlextractor.database
     build:
-      context: ../Scripts/UrlExtractor
+      context: ./deployments/Scripts/UrlExtractor
       dockerfile: Dockerfile
     ports:
       - "5434:5432"
@@ -50,7 +50,7 @@ services:
   tagextractor.database:
     image: searchengine/tagextractor.database
     build:
-      context: ../Scripts/TagExtractor
+      context: ./deployments/Scripts/TagExtractor
       dockerfile: Dockerfile
     ports:
       - "5435:5432"
@@ -83,6 +83,22 @@ services:
     networks:
       - backend
   
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:8.11.1
+    privileged: true
+    user: root
+    volumes:
+      - ./deployments/Scripts/Metricbeat/metricbeat.docker.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+    depends_on:
+      - elasticsearch
+      - kibana
+    networks:
+      - backend
+
   rabbitmq:
     image: rabbitmq:3.12-management
     hostname: rabbitmq

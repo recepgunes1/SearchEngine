@@ -57,9 +57,14 @@ public class ElasticService : IElasticService
             });
     }
 
-    public Task Insert(ElasticTag elasticTag)
+    public async Task Insert(ElasticTag elasticTag)
     {
-        return Console.Out.WriteLineAsync($"{elasticTag.Link}--{elasticTag.Title}");
+        var response = await _client.IndexDocumentAsync(elasticTag);
+        if (!response.IsValid)
+        {
+            // Handle the error, log it, or throw an exception
+            throw new InvalidOperationException($"Failed to insert document: {response.OriginalException.Message}");
+        }
     }
 
     public async Task<IEnumerable<string>> SuggestTitle(string input)

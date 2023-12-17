@@ -13,8 +13,8 @@ if [ "$action" != "up" ] && [ "$action" != "down" ]; then
     exit 1
 fi
 
-if [ "$environment" != "production" ] && [ "$environment" != "development" ]; then
-    echo "Second argument must be 'production' or 'development'"
+if [ "$environment" != "production" ] && [ "$environment" != "development" ] && [ "$environment" != "staging" ]; then
+    echo "Second argument must be 'production' or 'development' or 'staging'"
     exit 1
 fi
 
@@ -28,8 +28,11 @@ if [ "$action" == "up" ]; then
         do
             kubectl apply -f $file
         done
+    elif [ "$environment" == "staging" ]; then
+        docker compose -f docker-compose.yml -f ./deployments/Staging/docker-compose.staging.yml --env-file ./deployments/Staging/.env.staging up -d
     else
-        docker compose -f docker-compose.yml -f ./deployments/Development/docker-compose.development.yml --env-file ./deployments/Development/.env.Development up -d
+        docker compose -f ./deployments/Development/docker-compose.development.yml --env-file ./deployments/Development/.env.Development up -d
+        echo "External services are running right now..."
     fi
 else
     if [ "$environment" == "production" ]; then
@@ -44,8 +47,14 @@ else
         kubectl delete namespace services
         kubectl delete namespace databases
         kubectl delete namespace rabbitmq
+        
+        docker rmi $(docker images --format "{{.Repository}}:{{.ID}}" | grep -e searchengine -e "<none>" | cut -d : -f 2)
+    elif [ "$environment" == "staging" ]; then
+        docker compose -f docker-compose.yml -f ./deployments/Staging/docker-compose.staging.yml --env-file ./deployments/Staging/.env.staging down
+        docker rmi $(docker images --format "{{.Repository}}:{{.ID}}" | grep -e searchengine -e "<none>" | cut -d : -f 2)
     else
-        docker compose -f docker-compose.yml -f ./deployments/Development/docker-compose.development.yml --env-file ./deployments/Development/.env.Development down --volumes  
+        docker compose -f ./deployments/Development/docker-compose.development.yml --env-file ./deployments/Development/.env.Development down
+        echo "External services are disposed..."
     fi
 fi
 

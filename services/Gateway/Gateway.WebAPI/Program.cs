@@ -4,7 +4,9 @@ using Ocelot.Provider.Kubernetes;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile(builder.Environment.IsProduction() ? "ocelot.json" : "ocelot.Development.json");
+builder.Configuration.AddJsonFile(string.IsNullOrEmpty(builder.Environment.EnvironmentName)
+    ? "ocelot.json"
+    : $"ocelot.{builder.Environment.EnvironmentName}.json");
 
 builder.Services.AddOcelot().AddKubernetes();
 
