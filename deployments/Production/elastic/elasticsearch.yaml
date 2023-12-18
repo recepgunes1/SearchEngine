@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: elasticsearch-deployment
+  namespace: elastic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elasticsearch-pod
+  template:
+    metadata:
+      labels:
+        app: elasticsearch-pod
+    spec:
+      containers:
+        - name: elasticsearch
+          image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
+          resources:
+            requests:
+              memory: "2Gi"
+            limits:
+              memory: "4Gi"
+          ports:
+            - containerPort: 9200
+          env:
+            - name: discovery.type
+              value: "single-node"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elasticsearch-service
+  namespace: elastic
+spec:
+  selector:
+    app: elasticsearch-pod
+  type: NodePort
+  ports:
+    - port: 9200

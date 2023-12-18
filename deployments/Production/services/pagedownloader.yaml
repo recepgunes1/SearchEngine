@@ -4,7 +4,7 @@ metadata:
   name: pagedownloader-worker-deployment
   namespace: services
 spec:
-  replicas: 4
+  replicas: 1
   selector:
     matchLabels:
       app: pagedownloader-worker-pod

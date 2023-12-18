@@ -36,21 +36,11 @@ if [ "$action" == "up" ]; then
     fi
 else
     if [ "$environment" == "production" ]; then
-        kubectl delete deployment --all --namespace=services
-        kubectl delete deployment --all --namespace=databases
-        kubectl delete deployment --all --namespace=rabbitmq
-        kubectl delete deployment --all --namespace=clients
-
-        kubectl delete service --all --namespace=services
-        kubectl delete service --all --namespace=databases
-        kubectl delete service --all --namespace=rabbitmq
-        kubectl delete service --all --namespace=clients
-
-        kubectl delete namespace services
-        kubectl delete namespace databases
-        kubectl delete namespace rabbitmq
-        kubectl delete namespace clients
-        
+        for ns in services databases rabbitmq clients elastic; do
+            kubectl delete deployment --all --namespace=$ns
+            kubectl delete service --all --namespace=$ns
+            kubectl delete namespace $ns
+        done
         docker rmi $(docker images --format "{{.Repository}}:{{.ID}}" | grep -e searchengine -e "<none>" | cut -d : -f 2)
     elif [ "$environment" == "staging" ]; then
         docker compose -f docker-compose.yml -f ./deployments/Staging/docker-compose.staging.yml --env-file ./deployments/Staging/.env.staging down
