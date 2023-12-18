@@ -1,5 +1,6 @@
 ﻿networks:
   backend:
+  fronted:
 
 services:
   gateway.webapi:
@@ -12,6 +13,7 @@ services:
       - "5011:8081"
     networks:
       - backend
+      - fronted
     environment:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
 
@@ -70,3 +72,16 @@ services:
       - backend
     environment:
       - DOTNET_ENVIRONMENT=${ENVIRONMENT}
+
+  client.webapp:
+    image: searchengine/client.webapp
+    build:
+      context: .
+      dockerfile: clients/WebApp/Dockerfile
+    networks:
+      - fronted
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}

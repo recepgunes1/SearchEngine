@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 2 ]; then
-    echo "Usage: $0 [up|down] [production|development]"
+    echo "Usage: $0 [up|down] [production|development|staging]"
     exit 1
 fi
 
