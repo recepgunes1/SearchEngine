@@ -61,10 +61,8 @@ public class ElasticService : IElasticService
     {
         var response = await _client.IndexDocumentAsync(elasticTag);
         if (!response.IsValid)
-        {
             // Handle the error, log it, or throw an exception
             throw new InvalidOperationException($"Failed to insert document: {response.OriginalException.Message}");
-        }
     }
 
     public async Task<IEnumerable<string>> SuggestTitle(string input)

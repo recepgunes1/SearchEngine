@@ -45,6 +45,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UrlExtractor.Worker", "services\UrlExtractor\UrlExtractor.Worker\UrlExtractor.Worker.csproj", "{2875F5FB-316F-4E58-A3D3-B07ED2553E3F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "clients", "clients", "{1F45EC6B-7391-417D-BFAA-66C73A78729C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp", "clients\WebApp\WebApp.csproj", "{329FABB4-3558-4F31-AA9D-AA2564F4EB1D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,6 +74,7 @@ Global
 		{62932B54-5878-4764-ADED-0ED729BC06EC} = {6BFF40AD-C6B2-4560-AA36-2F3DBC7E48B9}
 		{7DD2D86B-B4B1-4FB7-B212-A595E70D0AEA} = {48470B03-E260-403B-B49C-E262267AF13E}
 		{2875F5FB-316F-4E58-A3D3-B07ED2553E3F} = {C434F085-C115-431A-BCE3-C3B224E2A5BF}
+		{329FABB4-3558-4F31-AA9D-AA2564F4EB1D} = {1F45EC6B-7391-417D-BFAA-66C73A78729C}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6B1EA84D-B3A5-4E24-A12A-E7A545657BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -120,5 +125,9 @@ Global
 		{2875F5FB-316F-4E58-A3D3-B07ED2553E3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2875F5FB-316F-4E58-A3D3-B07ED2553E3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2875F5FB-316F-4E58-A3D3-B07ED2553E3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{329FABB4-3558-4F31-AA9D-AA2564F4EB1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{329FABB4-3558-4F31-AA9D-AA2564F4EB1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{329FABB4-3558-4F31-AA9D-AA2564F4EB1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{329FABB4-3558-4F31-AA9D-AA2564F4EB1D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

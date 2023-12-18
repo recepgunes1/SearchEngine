@@ -1,0 +1,62 @@
+@page "/Register"
+@using System.Text.Json
+@using System.Text
+@inject IConfiguration Configuration
+@rendermode InteractiveServer
+
+<div class="row justify-content-center align-items-center mt-5">
+    <div class="col-9 border-1">
+        <div class="form-group text-left row">
+            <h3>Url Registration</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt justo eget scelerisque fringilla. Ut convallis rutrum tincidunt. Aliquam faucibus vel leo vel pharetra. Fusce felis quam, dapibus in malesuada non, sodales vel justo. </p>
+        </div>
+        <div class="input-group text-left mt-4">
+            <input type="text" class="form-control" placeholder="Enter a url" @bind="inputText">
+            <button class="btn btn-secondary" @onclick="RegisterInput">Register</button>
+        </div>
+        @if (message is not null)
+        {
+            <div class="mt-5">
+                <div class="alert alert-info" role="alert">
+                    @message
+                </div>
+            </div>
+        }
+    </div>
+    
+</div>
+
+@code {
+
+    private class RegisterUrlDto
+    {
+        public string Link { get; set; } = null!;
+    }
+
+    private string inputText = null!;
+    private string? message = null;
+
+    private async Task RegisterInput()
+    {
+        var gatewayApiUrl = Configuration.GetConnectionString("Gateway") ?? throw new ArgumentNullException();
+
+        var urlDto = new RegisterUrlDto
+        {
+            Link = inputText
+        };
+        var jsonContent = JsonSerializer.Serialize(urlDto);
+
+        var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+        using var client = new HttpClient();
+
+        var response = await client.PostAsync($"{gatewayApiUrl}/register", content);
+
+        var result = await response.Content.ReadAsStringAsync();
+
+        inputText = string.Empty;
+
+        message = result;
+    }
+
+}
