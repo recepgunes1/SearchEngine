@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-webapp-deployment
+  namespace: clients
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client-webapp-pod
+  template:
+    metadata:
+      labels:
+        app: client-webapp-pod
+    spec:
+      containers:
+        - name: client-webapp
+          image: searchengine/client.webapp
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: clients
+  name: client-webapp-service
+spec:
+  selector:
+    app: client-webapp-pod
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 30100
