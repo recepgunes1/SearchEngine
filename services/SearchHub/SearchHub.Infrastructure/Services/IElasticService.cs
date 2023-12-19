@@ -7,5 +7,6 @@ public interface IElasticService
 {
     Task<IEnumerable<string>> SuggestTitle(string input);
     Task<IEnumerable<SearchOutputDto>> Search(SearchUrlDto inputDto);
+    Task<string> IFeelLucky(string input);
     Task Insert(ElasticTag elasticTag);
 }

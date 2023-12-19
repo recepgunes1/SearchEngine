@@ -6,57 +6,75 @@
 @rendermode InteractiveServer
 @inject NavigationManager NavManager
 
-
-<div class="row justify-content-center align-items-center mt-3">
-    <div class="col-10 text-left">
-        @for (var i = 0; i < 10; i++)
-        {
-            <div class="row bg-light border border-1 rounded shadow my-5">
-                <h4 class="border-bottom m-1">
-                    <a href="http://localhost:8080"> Lorem ipsum dolor sit amet </a>
-                </h4>
-                <p class="text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin molestie rutrum nibh sed tincidunt. Duis mollis arcu a molestie finibus. Suspendisse blandit convallis suscipit. Suspendisse lobortis sed diam sed pellentesque. Mauris in nulla eu nulla auctor mattis. Proin nunc urna, faucibus sit amet ultricies quis, auctor quis risus. Pellentesque quam massa, pharetra sit amet vehicula sit amet, scelerisque vitae risus. Donec id faucibus justo. Suspendisse nec lectus elit. Nam sodales dui in purus sagittis, a iaculis dolor luctus. Quisque auctor orci non hendrerit ullamcorper.</p>
-            </div>
-        }
+@if (_resultModels.Any())
+{
+    <div class="row justify-content-center align-items-center mt-3">
+        <div class="col-10 text-left">
+            @foreach (var model in _resultModels)
+            {
+                <div class="row bg-light border border-1 rounded shadow my-5">
+                    <h4 class="border-bottom m-1">
+                        <span @onclick="RedirectToLink">
+                            @{
+                                void RedirectToLink()
+                                {
+                                    NavManager.NavigateTo(model.Link, forceLoad: true);
+                                }
+                            }
+                            @model.Title
+                        </span>
+                    </h4>
+                    <p class="text">
+                        @model.InnerText
+                    </p>
+                </div>
+            }
+        </div>
     </div>
-</div>
-<div class="row align-items-center">
-    <div class="col text-end">
-        @if (_currentPage > 1)
-        {
-            <button class="btn btn-info" @onclick="BackToPrevious">
+
+    <div class="row align-items-center">
+        <div class="col text-end">
+            @if (_currentPage > 1)
+            {
+                <button class="btn btn-info" @onclick="BackToPrevious">
+                    @{
+                        void BackToPrevious()
+                        {
+                            NavManager.NavigateTo($"/result?input={_input}&page={_currentPage - 1}&pageSize={_pageSize}", true);
+                        }
+                    }
+                    Previous
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-info disabled">Previous</button>
+            }
+        </div>
+        <div class="col text-start">
+            <button class="btn btn-info" @onclick="GoToNext">
                 @{
-                    void BackToPrevious()
+                    void GoToNext()
                     {
-                        NavManager.NavigateTo($"/result?input={_input}&page={_currentPage - 1}&pageSize={_pageSize}", true);
+                        NavManager.NavigateTo($"/result?input={_input}&page={_currentPage + 1}&pageSize={_pageSize}", true);
                     }
                 }
-                Previous
+                Next
             </button>
-        }
-        else
-        {
-            <button class="btn btn-info disabled">Previous</button>
-        }
+        </div>
     </div>
-    <div class="col text-start">
-        <button class="btn btn-info" @onclick="GoToNext">
-            @{
-                void GoToNext()
-                {
-                    NavManager.NavigateTo($"/result?input={_input}&page={_currentPage + 1}&pageSize={_pageSize}", true);
-                }
-            }
-            Next
-        </button>
-    </div>
-</div>
+}
+else
+{
+    <p>There is no result here.</p>
+}
 
 @code {
 
     private string _input = string.Empty;
     private int _currentPage = 1;
     private int _pageSize = 10;
+    private List<ResultModel> _resultModels = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -84,12 +102,13 @@
         if (response.IsSuccessStatusCode)
         {
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var result = JsonSerializer.Deserialize<IEnumerable<ResultModel>>(jsonResponse);
-            Console.WriteLine(result?.Count());
+            var options = new JsonSerializerOptions
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                AllowTrailingCommas = true,
+            };
+            _resultModels = JsonSerializer.Deserialize<List<ResultModel>>(jsonResponse, options) ?? new List<ResultModel>();
         }
-        
         await base.OnInitializedAsync();
-
     }
-
 }

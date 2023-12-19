@@ -23,4 +23,12 @@ public class UrlController(IElasticService elasticService) : Controller
         var result = await elasticService.SuggestTitle(input);
         return Ok(result);
     }
+    
+    [HttpGet]
+    [Route("lucky")]
+    public async Task<IActionResult> FeelLucky(string input)
+    {
+        var result = await elasticService.IFeelLucky(input);
+        return Ok(result);
+    }
 }

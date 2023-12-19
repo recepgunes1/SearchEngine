@@ -2,6 +2,7 @@
 @page "/Search"
 @inject NavigationManager NavManager
 @rendermode InteractiveServer
+@inject IConfiguration Configuration
 
 <div class="row justify-content-center align-items-center m-5">
     <div class="col-9 text-center bg-light border border-1 rounded shadow p-5">
@@ -11,7 +12,7 @@
         </div>
         <div class="mt-4">
             <button class="btn btn-primary" @onclick="SearchInput">Search</button>
-            <button class="btn btn-warning">I'm Feeling Lucky</button>
+            <button class="btn btn-warning" @onclick="FeelLuck">I'm Feeling Lucky</button>
         </div>
     </div>
 </div>
@@ -27,4 +28,20 @@
         }
     }
 
+    private async Task FeelLuck()
+    {
+        var gatewayApiUrl = Configuration.GetConnectionString("Gateway") ?? throw new ArgumentNullException();
+
+        using var client = new HttpClient();
+        var response = await client.GetAsync($"{gatewayApiUrl}/lucky?input={inputText}");
+        response.EnsureSuccessStatusCode();
+        if (response.IsSuccessStatusCode)
+        {
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            if (!string.IsNullOrEmpty(jsonResponse) && !string.IsNullOrWhiteSpace(jsonResponse))
+            {
+                NavManager.NavigateTo(jsonResponse);
+            }
+        }
+    }
 }

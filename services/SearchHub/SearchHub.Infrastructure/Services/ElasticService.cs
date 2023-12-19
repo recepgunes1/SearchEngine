@@ -53,8 +53,37 @@ public class ElasticService : IElasticService
             {
                 Title = p.Title,
                 Link = p.Link,
-                InnerText = p.InnerText?.Substring(0, 128) ?? string.Empty
+                InnerText = p.InnerText?.Substring(0, 512) ?? string.Empty
             });
+    }
+
+    public async Task<string> IFeelLucky(string input)
+    {
+        var searchResponse = await _client.SearchAsync<ElasticTag>(s => s
+            .Index(IndexName)
+            .Query(q => q
+                .MultiMatch(m => m
+                    .Query(input)
+                    .Fields(f => f
+                        .Field(p => p.Title)
+                        .Field(p => p.Tags)
+                        .Field(p => p.InnerText)
+                    )
+                )
+            )
+            .Source(src => src
+                .Includes(i => i
+                    .Field(f => f.Link)
+                    .Field(f => f.Title)
+                    .Field(f => f.InnerText)
+                )
+            )
+            .From(0)
+            .Size(1)
+        );
+        return !searchResponse.IsValid
+            ? string.Empty
+            : searchResponse.Documents.Select(p => p.Link).FirstOrDefault() ?? string.Empty;
     }
 
     public async Task Insert(ElasticTag elasticTag)

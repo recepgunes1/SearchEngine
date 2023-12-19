@@ -41,6 +41,21 @@
       "UpstreamHttpMethod": [
         "GET"
       ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Url/lucky",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "searchhub.webapi",
+          "Port": 8080
+        }
+      ],
+      "UpstreamPathTemplate": "/lucky",
+      "UpstreamHttpMethod": [
+        "GET"
+      ]
     }
+
   ]
 }
