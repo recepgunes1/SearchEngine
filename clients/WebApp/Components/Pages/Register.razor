@@ -5,14 +5,14 @@
 @rendermode InteractiveServer
 
 <div class="row justify-content-center align-items-center mt-5">
-    <div class="col-9 border-1">
+    <div class="col-9 bg-light border border-1 rounded shadow p-5">
         <div class="form-group text-left row">
             <h3>Url Registration</h3>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla tincidunt justo eget scelerisque fringilla. Ut convallis rutrum tincidunt. Aliquam faucibus vel leo vel pharetra. Fusce felis quam, dapibus in malesuada non, sodales vel justo. </p>
         </div>
         <div class="input-group text-left mt-4">
             <input type="text" class="form-control" placeholder="Enter a url" @bind="inputText">
-            <button class="btn btn-secondary" @onclick="RegisterInput">Register</button>
+            <button class="btn btn-warning" @onclick="RegisterInput">Register</button>
         </div>
         @if (message is not null)
         {
@@ -23,7 +23,7 @@
             </div>
         }
     </div>
-    
+
 </div>
 
 @code {
@@ -34,7 +34,7 @@
     }
 
     private string inputText = null!;
-    private string? message = null;
+    private string? message;
 
     private async Task RegisterInput()
     {

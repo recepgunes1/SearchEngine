@@ -1,34 +1,30 @@
 @page "/"
 @page "/Search"
-@inject IConfiguration Configuration
+@inject NavigationManager NavManager
 @rendermode InteractiveServer
 
-
-<div class="row justify-content-center align-items-center mt-5">
-    <div class="col-8 text-center">
+<div class="row justify-content-center align-items-center m-5">
+    <div class="col-9 text-center bg-light border border-1 rounded shadow p-5">
         <div class="row">
             <h1 class="h1 mb-5"> WebApp </h1>
             <input type="text" class="form-control" @bind="inputText" placeholder="Search">
         </div>
         <div class="mt-4">
             <button class="btn btn-primary" @onclick="SearchInput">Search</button>
-            <button class="btn btn-secondary">I'm Feeling Lucky</button>
+            <button class="btn btn-warning">I'm Feeling Lucky</button>
         </div>
     </div>
 </div>
 
 @code {
     private string inputText = null!;
-    
-    private async Task SearchInput()
+
+    private void SearchInput()
     {
-        var gatewayApiUrl = Configuration.GetConnectionString("Gateway") ?? throw new ArgumentNullException();
-
-        using var client = new HttpClient();
-        var response = await client.GetAsync($"{gatewayApiUrl}/search?input={inputText}&page=1&pageSize=10");
-        response.EnsureSuccessStatusCode();
-
-        var result = await response.Content.ReadAsStringAsync();
-        Console.WriteLine(result);
+        if (!string.IsNullOrEmpty(inputText) && !string.IsNullOrWhiteSpace(inputText))
+        {
+            NavManager.NavigateTo($"/result?input={inputText}&page=1&pageSize=10");
+        }
     }
+
 }

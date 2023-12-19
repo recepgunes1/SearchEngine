@@ -1,0 +1,95 @@
+@page "/Result"
+@using Microsoft.AspNetCore.WebUtilities
+@using WebApp.Models
+@using System.Text.Json
+@inject IConfiguration Configuration
+@rendermode InteractiveServer
+@inject NavigationManager NavManager
+
+
+<div class="row justify-content-center align-items-center mt-3">
+    <div class="col-10 text-left">
+        @for (var i = 0; i < 10; i++)
+        {
+            <div class="row bg-light border border-1 rounded shadow my-5">
+                <h4 class="border-bottom m-1">
+                    <a href="http://localhost:8080"> Lorem ipsum dolor sit amet </a>
+                </h4>
+                <p class="text"> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin molestie rutrum nibh sed tincidunt. Duis mollis arcu a molestie finibus. Suspendisse blandit convallis suscipit. Suspendisse lobortis sed diam sed pellentesque. Mauris in nulla eu nulla auctor mattis. Proin nunc urna, faucibus sit amet ultricies quis, auctor quis risus. Pellentesque quam massa, pharetra sit amet vehicula sit amet, scelerisque vitae risus. Donec id faucibus justo. Suspendisse nec lectus elit. Nam sodales dui in purus sagittis, a iaculis dolor luctus. Quisque auctor orci non hendrerit ullamcorper.</p>
+            </div>
+        }
+    </div>
+</div>
+<div class="row align-items-center">
+    <div class="col text-end">
+        @if (_currentPage > 1)
+        {
+            <button class="btn btn-info" @onclick="BackToPrevious">
+                @{
+                    void BackToPrevious()
+                    {
+                        NavManager.NavigateTo($"/result?input={_input}&page={_currentPage - 1}&pageSize={_pageSize}", true);
+                    }
+                }
+                Previous
+            </button>
+        }
+        else
+        {
+            <button class="btn btn-info disabled">Previous</button>
+        }
+    </div>
+    <div class="col text-start">
+        <button class="btn btn-info" @onclick="GoToNext">
+            @{
+                void GoToNext()
+                {
+                    NavManager.NavigateTo($"/result?input={_input}&page={_currentPage + 1}&pageSize={_pageSize}", true);
+                }
+            }
+            Next
+        </button>
+    </div>
+</div>
+
+@code {
+
+    private string _input = string.Empty;
+    private int _currentPage = 1;
+    private int _pageSize = 10;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("input", out var input))
+        {
+            _input = input.ToString();
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("page", out var page))
+        {
+            _currentPage = Convert.ToInt32(page);
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("pageSize", out var pageSize))
+        {
+            _pageSize = Convert.ToInt32(pageSize);
+        }
+
+        var gatewayApiUrl = Configuration.GetConnectionString("Gateway") ?? throw new ArgumentNullException();
+
+        using var client = new HttpClient();
+        var response = await client.GetAsync($"{gatewayApiUrl}/search?input={_input}&page={_currentPage}&pageSize={_pageSize}");
+        response.EnsureSuccessStatusCode();
+        if (response.IsSuccessStatusCode)
+        {
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<IEnumerable<ResultModel>>(jsonResponse);
+            Console.WriteLine(result?.Count());
+        }
+        
+        await base.OnInitializedAsync();
+
+    }
+
+}

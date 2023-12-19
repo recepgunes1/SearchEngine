@@ -25,7 +25,7 @@ public class TagExtractor(AppDbContext dbContext) : IConsumer<ExtractedTag>
             Tags = string.Join(';', tags)
         });
         await dbContext.SaveChangesAsync();
-        await context.Publish<InsertedElastic>(new InsertedElastic
+        await context.Publish(new InsertedElastic
         {
             Link = message.Link
         });
