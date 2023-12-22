@@ -17,9 +17,9 @@ To get started, clone the repository to your local machine.
 
 ### Running the Project
 Navigate to the project directory and execute the following script to set up your environment:
-`./run.sh [up|down] [production|development]`
+`./run.sh [up|down] [production|staging|development]`
 - Use `up` to start the project and `down` to stop it.
-- Choose between `production` and `development` environments according to your needs.
+- Choose between `production` or `development` or `staging` environments according to your needs.
 
 ---
 
