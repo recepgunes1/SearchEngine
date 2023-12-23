@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -ne 2 ]; then
-    echo "Usage: $0 [up|down] [production|development|staging]"
+    echo "Usage: $0 [up|down] [production|development|staging|preproduction]"
     exit 1
 fi
 
@@ -13,8 +13,8 @@ if [ "$action" != "up" ] && [ "$action" != "down" ]; then
     exit 1
 fi
 
-if [ "$environment" != "production" ] && [ "$environment" != "development" ] && [ "$environment" != "staging" ]; then
-    echo "Second argument must be 'production' or 'development' or 'staging'"
+if [ "$environment" != "production" ] && [ "$environment" != "development" ] && [ "$environment" != "staging" ] && [ "$environment" != "preproduction" ]; then
+    echo "Second argument must be 'production' or 'development' or 'staging' or 'preproduction'"
     exit 1
 fi
 
@@ -28,6 +28,8 @@ if [ "$action" == "up" ]; then
         do
             kubectl apply -f $file
         done
+    elif [ "$environment" == "preproduction" ]; then
+        docker compose -f docker-compose.yml -f ./deployments/PreProduction/docker-compose.preproduction.yml --env-file ./deployments/PreProduction/.env.PreProduction up -d
     elif [ "$environment" == "staging" ]; then
         docker compose -f docker-compose.yml -f ./deployments/Staging/docker-compose.staging.yml --env-file ./deployments/Staging/.env.staging up -d
     else
@@ -41,6 +43,9 @@ else
             kubectl delete service --all --namespace=$ns
             kubectl delete namespace $ns
         done
+        docker rmi $(docker images --format "{{.Repository}}:{{.ID}}" | grep -e searchengine -e "<none>" | cut -d : -f 2)
+    elif [ "$environment" == "preproduction" ]; then
+        docker compose -f docker-compose.yml -f ./deployments/PreProduction/docker-compose.staging.yml --env-file ./deployments/PreProduction/.env.staging down
         docker rmi $(docker images --format "{{.Repository}}:{{.ID}}" | grep -e searchengine -e "<none>" | cut -d : -f 2)
     elif [ "$environment" == "staging" ]; then
         docker compose -f docker-compose.yml -f ./deployments/Staging/docker-compose.staging.yml --env-file ./deployments/Staging/.env.staging down

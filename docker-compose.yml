@@ -8,40 +8,34 @@ services:
     build:
       context: .
       dockerfile: services/Gateway/Gateway.WebAPI/Dockerfile
-    ports:
-      - "5010:8080"
-      - "5011:8081"
     networks:
       - backend
       - fronted
     environment:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
+    restart: always
 
   urlregister.webapi:
     image: searchengine/urlregister.webapi
     build:
       context: .
       dockerfile: services/UrlRegister/UrlRegister.WebAPI/Dockerfile
-    ports:
-      - "5020:8080"
-      - "5021:8081"
     networks:
       - backend
     environment:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
+    restart: always
 
   searchhub.webapi:
     image: searchengine/searchhub.webapi
     build:
       context: .
       dockerfile: services/SearchHub/SearchHub.WebAPI/Dockerfile
-    ports:
-      - "5030:8080"
-      - "5031:8081"
     networks:
       - backend
     environment:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
+    restart: always
 
   pagedownloader.worker:
     image: searchengine/pagedownloader.worker
@@ -52,6 +46,7 @@ services:
       - backend
     environment:
       - DOTNET_ENVIRONMENT=${ENVIRONMENT}
+    restart: always
 
   tagextractor.worker:
     image: searchengine/tagextractor.worker
@@ -62,6 +57,7 @@ services:
       - backend
     environment:
       - DOTNET_ENVIRONMENT=${ENVIRONMENT}
+    restart: always
 
   urlextractor.worker:
     image: searchengine/urlextractor.worker
@@ -72,6 +68,7 @@ services:
       - backend
     environment:
       - DOTNET_ENVIRONMENT=${ENVIRONMENT}
+    restart: always
 
   client.webapp:
     image: searchengine/client.webapp
@@ -80,8 +77,6 @@ services:
       dockerfile: clients/WebApp/Dockerfile
     networks:
       - fronted
-    ports:
-      - "8080:8080"
-      - "8081:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
+    restart: always

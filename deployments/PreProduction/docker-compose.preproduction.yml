@@ -1,14 +1,20 @@
 networks:
   backend:
 
+volumes: 
+  urlregister.database_data:
+  pagedownloader.database_data:
+  urlextractor.database_data:
+  tagextractor.database_data:
+  elasticsearch_data:
+  rabbitmq_data:
+
 services:
   urlregister.database:
     image: searchengine/urlregister.database
     build:
       context: ./deployments/Scripts/UrlRegister
       dockerfile: Dockerfile
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password123.
@@ -16,14 +22,14 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     networks:
       - backend
+    volumes:
+      - urlregister.database_data:/var/lib/postgresql/data
 
   pagedownloader.database:
     image: searchengine/pagedownloader.database
     build:
       context: ./deployments/Scripts/PageDownloader
       dockerfile: Dockerfile
-    ports:
-      - "5433:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password123.
@@ -31,14 +37,14 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     networks:
       - backend
+    volumes:
+      - pagedownloader.database_data:/var/lib/postgresql/data
 
   urlextractor.database:
     image: searchengine/urlextractor.database
     build:
       context: ./deployments/Scripts/UrlExtractor
       dockerfile: Dockerfile
-    ports:
-      - "5434:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password123.
@@ -46,14 +52,14 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     networks:
       - backend
+    volumes:
+      - urlextractor.database_data:/var/lib/postgresql/data
 
   tagextractor.database:
     image: searchengine/tagextractor.database
     build:
       context: ./deployments/Scripts/TagExtractor
       dockerfile: Dockerfile
-    ports:
-      - "5435:5432"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Password123.
@@ -61,6 +67,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     networks:
       - backend
+    volumes:
+      - tagextractor.database_data:/var/lib/postgresql/data
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
@@ -68,12 +76,12 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
       - ES_JAVA_OPTS=-Xms2g -Xmx2g
-    ports:
-      - "9200:9200"
-      - "9300:9300"
     networks:
       - backend
-  
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    restart: always
+
   kibana:
     image: docker.elastic.co/kibana/kibana:8.11.1
     depends_on:
@@ -102,26 +110,30 @@ services:
   rabbitmq:
     image: rabbitmq:3.12-management
     hostname: rabbitmq
-    ports:
-      - "5672:5672"
-      - "15672:15672"
     networks:
       - backend
-
-  gateway.webapi:
-    ports:
-      - "5010:8080"
-      - "5011:8081"
-
-  urlregister.webapi:
-    ports:
-      - "5020:8080"
-      - "5021:8081"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
   searchhub.webapi:
-    ports:
-      - "5030:8080"
-      - "5031:8081"
+    deploy:
+      mode: replicated
+      replicas: 2
+
+  pagedownloader.worker:
+    deploy:
+      mode: replicated
+      replicas: 2
+
+  tagextractor.worker:
+    deploy:
+      mode: replicated
+      replicas: 2
+
+  urlextractor.worker:
+    deploy:
+      mode: replicated
+      replicas: 2
 
   client.webapp:
     ports:
