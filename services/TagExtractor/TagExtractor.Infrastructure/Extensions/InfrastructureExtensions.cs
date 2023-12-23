@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TagExtractor.Infrastructure.Consumer;
 using TagExtractor.Infrastructure.Context;
 
 namespace TagExtractor.Infrastructure.Extensions;
@@ -14,7 +15,7 @@ public static class InfrastructureExtensions
         services.AddDbContext<AppDbContext>(p => p.UseNpgsql(configuration.GetConnectionString("Database")));
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<Consumer.TagExtractorConsumer>();
+            x.AddConsumer<TagExtractorConsumer>();
             x.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(configuration["RabbitMQ:Host"], Convert.ToUInt16(configuration["RabbitMQ:Port"]),

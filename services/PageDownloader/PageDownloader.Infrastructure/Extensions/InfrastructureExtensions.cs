@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PageDownloader.Infrastructure.Consumers;
 using PageDownloader.Infrastructure.Context;
 
 namespace PageDownloader.Infrastructure.Extensions;
@@ -15,7 +16,7 @@ public static class InfrastructureExtensions
 
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<Consumers.PageDownloaderConsumer>();
+            x.AddConsumer<PageDownloaderConsumer>();
             x.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(configuration["RabbitMQ:Host"], Convert.ToUInt16(configuration["RabbitMQ:Port"]),

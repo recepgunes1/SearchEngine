@@ -2,6 +2,7 @@ using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UrlExtractor.Infrastructure.Consumer;
 using UrlExtractor.Infrastructure.Context;
 using UrlExtractor.Infrastructure.Services;
 
@@ -16,7 +17,7 @@ public static class InfrastructureExtensions
         services.AddScoped<IExtractorService, ExtractorService>();
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<Consumer.UrlExtractorConsumer>();
+            x.AddConsumer<UrlExtractorConsumer>();
             x.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(configuration["RabbitMQ:Host"], Convert.ToUInt16(configuration["RabbitMQ:Port"]),
