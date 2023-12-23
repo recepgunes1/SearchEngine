@@ -10,7 +10,7 @@ using ExtractedUrl = Shared.Events.ExtractedUrl;
 
 namespace PageDownloader.Infrastructure.Consumers;
 
-public class PageDownloader(AppDbContext dbContext) : IConsumer<DownloadedPage>
+public class PageDownloaderConsumer(AppDbContext dbContext) : IConsumer<DownloadedPage>
 {
     public async Task Consume(ConsumeContext<DownloadedPage> context)
     {

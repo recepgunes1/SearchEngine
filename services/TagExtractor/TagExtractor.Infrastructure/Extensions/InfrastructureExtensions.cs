@@ -14,7 +14,7 @@ public static class InfrastructureExtensions
         services.AddDbContext<AppDbContext>(p => p.UseNpgsql(configuration.GetConnectionString("Database")));
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<Consumer.TagExtractor>();
+            x.AddConsumer<Consumer.TagExtractorConsumer>();
             x.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(configuration["RabbitMQ:Host"], Convert.ToUInt16(configuration["RabbitMQ:Port"]),

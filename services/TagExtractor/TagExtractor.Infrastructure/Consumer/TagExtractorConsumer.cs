@@ -8,7 +8,7 @@ using TagExtractor.Infrastructure.Context;
 
 namespace TagExtractor.Infrastructure.Consumer;
 
-public class TagExtractor(AppDbContext dbContext) : IConsumer<ExtractedTag>
+public class TagExtractorConsumer(AppDbContext dbContext) : IConsumer<ExtractedTag>
 {
     public async Task Consume(ConsumeContext<ExtractedTag> context)
     {

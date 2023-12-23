@@ -16,7 +16,7 @@ public static class InfrastructureExtensions
         services.AddScoped<IExtractorService, ExtractorService>();
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<Consumer.UrlExtractor>();
+            x.AddConsumer<Consumer.UrlExtractorConsumer>();
             x.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(configuration["RabbitMQ:Host"], Convert.ToUInt16(configuration["RabbitMQ:Port"]),

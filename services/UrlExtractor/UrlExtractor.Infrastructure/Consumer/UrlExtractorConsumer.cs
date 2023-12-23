@@ -7,7 +7,7 @@ using UrlExtractor.Infrastructure.Services;
 
 namespace UrlExtractor.Infrastructure.Consumer;
 
-public class UrlExtractor(AppDbContext dbContext, IExtractorService extractorService) : IConsumer<ExtractedUrl>
+public class UrlExtractorConsumer(AppDbContext dbContext, IExtractorService extractorService) : IConsumer<ExtractedUrl>
 {
     public async Task Consume(ConsumeContext<ExtractedUrl> context)
     {

@@ -15,7 +15,7 @@ public static class InfrastructureExtensions
 
         services.AddMassTransit(x =>
         {
-            x.AddConsumer<Consumers.PageDownloader>();
+            x.AddConsumer<Consumers.PageDownloaderConsumer>();
             x.UsingRabbitMq((ctx, cfg) =>
             {
                 cfg.Host(configuration["RabbitMQ:Host"], Convert.ToUInt16(configuration["RabbitMQ:Port"]),
