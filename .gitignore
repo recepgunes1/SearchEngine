@@ -402,3 +402,6 @@ FodyWeavers.xsd
 
 .idea
 .DS_Store
+
+venv/
+__pycache__

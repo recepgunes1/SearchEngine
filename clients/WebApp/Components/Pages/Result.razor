@@ -1,6 +1,6 @@
 @page "/Result"
-@using Microsoft.AspNetCore.WebUtilities
 @using WebApp.Models
+@using Microsoft.AspNetCore.WebUtilities
 @using System.Text.Json
 @inject IConfiguration Configuration
 @rendermode InteractiveServer
@@ -18,14 +18,14 @@
                             @{
                                 void RedirectToLink()
                                 {
-                                    NavManager.NavigateTo(model.Link, forceLoad: true);
+                                    NavManager.NavigateTo(model.Link, true);
                                 }
                             }
                             @model.Title
                         </span>
                     </h4>
                     <p class="text">
-                        @model.InnerText
+                        @model.Explanation
                     </p>
                 </div>
             }
@@ -105,10 +105,12 @@ else
             var options = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                AllowTrailingCommas = true,
+                AllowTrailingCommas = true
             };
             _resultModels = JsonSerializer.Deserialize<List<ResultModel>>(jsonResponse, options) ?? new List<ResultModel>();
         }
+
         await base.OnInitializedAsync();
     }
+
 }

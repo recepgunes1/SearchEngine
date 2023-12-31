@@ -4,5 +4,5 @@ public class ResultModel
 {
     public string Link { get; set; } = null!;
     public string? Title { get; set; }
-    public string InnerText { get; set; } = null!;
+    public string Explanation { get; set; } = null!;
 }

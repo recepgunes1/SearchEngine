@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shared.Entities;
 
-namespace SearchHub.Infrastructure.Context;
+namespace SyncElastic.Infrastructure.Contexts;
 
 public class TagExtractorDbContext(DbContextOptions<TagExtractorDbContext> options) : DbContext(options)
 {

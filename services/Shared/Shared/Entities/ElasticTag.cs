@@ -1,4 +1,4 @@
-namespace SearchHub.Infrastructure.Entities;
+namespace Shared.Entities;
 
 public class ElasticTag
 {
@@ -7,4 +7,5 @@ public class ElasticTag
     public string Link { get; set; } = null!;
     public string? InnerText { get; set; }
     public string[] Tags { get; set; } = null!;
+    public string? Summary { get; set; }
 }

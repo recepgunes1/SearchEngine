@@ -70,6 +70,17 @@ services:
       - DOTNET_ENVIRONMENT=${ENVIRONMENT}
     restart: always
 
+  syncelastic.worker:
+    image: syncelastic.worker
+    build:
+      context: .
+      dockerfile: services/SyncElastic/SyncElastic.Worker/Dockerfile
+    networks:
+      - backend
+    environment:
+      - DOTNET_ENVIRONMENT=${ENVIRONMENT}
+    restart: always
+
   client.webapp:
     image: searchengine/client.webapp
     build:
@@ -80,3 +91,4 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
     restart: always
+

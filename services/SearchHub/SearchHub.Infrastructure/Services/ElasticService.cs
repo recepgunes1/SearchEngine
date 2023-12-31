@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Configuration;
 using Nest;
-using SearchHub.Infrastructure.Entities;
 using Shared.DTOs;
+using Shared.Entities;
 
 namespace SearchHub.Infrastructure.Services;
 
@@ -53,7 +53,7 @@ public class ElasticService : IElasticService
             {
                 Title = p.Title,
                 Link = p.Link,
-                InnerText = p.InnerText?.Substring(0, 512) ?? string.Empty
+                Explanation = p.Summary ?? p.InnerText?[..512] ?? string.Empty
             });
     }
 
@@ -86,13 +86,6 @@ public class ElasticService : IElasticService
             : searchResponse.Documents.Select(p => p.Link).FirstOrDefault() ?? string.Empty;
     }
 
-    public async Task Insert(ElasticTag elasticTag)
-    {
-        var response = await _client.IndexDocumentAsync(elasticTag);
-        if (!response.IsValid)
-            // Handle the error, log it, or throw an exception
-            throw new InvalidOperationException($"Failed to insert document: {response.OriginalException.Message}");
-    }
 
     public async Task<IEnumerable<string>> SuggestTitle(string input)
     {
