@@ -37,6 +37,17 @@ services:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
     restart: always
 
+  summarizer.webapi:
+    image: searchengine/summarizer.webapi
+    build:
+      context: .
+      dockerfile: services/Summarizer/Dockerfile
+    networks:
+      - backend
+    environment:
+      - ENVIRONMENT=${ENVIRONMENT}
+    restart: always
+
   pagedownloader.worker:
     image: searchengine/pagedownloader.worker
     build:
