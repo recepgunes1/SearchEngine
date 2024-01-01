@@ -82,7 +82,7 @@ services:
     restart: always
 
   syncelastic.worker:
-    image: syncelastic.worker
+    image: searchengine/syncelastic.worker
     build:
       context: .
       dockerfile: services/SyncElastic/SyncElastic.Worker/Dockerfile

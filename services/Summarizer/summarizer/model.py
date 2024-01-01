@@ -21,4 +21,4 @@ class DataObject:
         # Simple heuristic: take sentences that contain the most frequent words
         summary_sentences = [sentence for sentence in sentences if sorted_words[0][0] in sentence]
 
-        return ' '.join(summary_sentences[1:3])  # return first two sentences of the summary
+        return ' '.join(summary_sentences[2:5])  # return first two sentences of the summary

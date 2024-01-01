@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: summarizer-api-deployment
+  namespace: services
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: summarizer-api-pod
+  template:
+    metadata:
+      labels:
+        app: summarizer-api-pod
+    spec:
+      containers:
+      - name: summarizer-api
+        image: searchengine/summarizer.webapi
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 1453       
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: services
+  name: summarizer-api-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: summarizer-api-pod
+  ports:
+  - protocol: TCP
+    port: 1453
+    targetPort: 1453
+    name: http
+
