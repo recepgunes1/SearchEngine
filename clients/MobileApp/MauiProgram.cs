@@ -8,13 +8,13 @@ public static class MauiProgram
     public static MauiApp CreateMauiApp()
     {
         var builder = MauiApp.CreateBuilder();
-        
+
         var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
             .Build();
 
         builder.Configuration.AddConfiguration(config);
-        
+
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts =>
@@ -22,10 +22,10 @@ public static class MauiProgram
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
             });
-        
+
         builder.Services.AddTransient<SearchPage>();
         builder.Services.AddTransient<RegisterPage>();
-        
+
 #if DEBUG
         builder.Logging.AddDebug();
 #endif

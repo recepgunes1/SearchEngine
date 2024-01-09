@@ -11,9 +11,8 @@
                LineBreakMode="WordWrap"
                FontFamily="Lobster-Bold"
                FontAttributes="Bold"
-               Margin="0,0,0,50">
-        </Label>
-        
+               Margin="0,0,0,50" />
+
         <SearchBar x:Name="InputBar"
                    Placeholder="Enter search term..."
                    SearchButtonPressed="InputBar_OnSearchButtonPressed"

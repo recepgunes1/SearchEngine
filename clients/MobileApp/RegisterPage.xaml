@@ -9,15 +9,13 @@
                Text="Url Registration Page"
                LineBreakMode="WordWrap"
                FontFamily="Lobster-Bold"
-               FontAttributes="Bold">
-        </Label>
-        
+               FontAttributes="Bold" />
+
         <Label HorizontalTextAlignment="Start"
                TextColor="Black"
                Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sodales turpis felis. Integer convallis sem tortor."
                LineBreakMode="WordWrap"
-               Margin="0,0,0,50">
-        </Label>
+               Margin="0,0,0,50" />
 
         <Entry x:Name="EntryUrl" Placeholder="Enter a url" />
         <Button Text="Register Url" x:Name="ButtonRegister" Clicked="ButtonRegister_OnClicked" />

@@ -6,13 +6,6 @@ namespace MobileApp;
 
 public partial class RegisterPage : ContentPage
 {
-    
-    
-    private class RegisterUrlDto
-    {
-        public string Link { get; set; } = null!;
-    }
-
     private readonly IConfiguration _configuration;
 
     public RegisterPage(IConfiguration configuration)
@@ -41,9 +34,12 @@ public partial class RegisterPage : ContentPage
 
         var answer = await DisplayAlert("Information", result, "Accept", "Cancel");
 
-        if (answer)
-        {
-            EntryUrl.Text = string.Empty;
-        }
+        if (answer) EntryUrl.Text = string.Empty;
+    }
+
+
+    private class RegisterUrlDto
+    {
+        public string Link { get; set; } = null!;
     }
 }
