@@ -55,6 +55,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncElastic.Infrastructure"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncElastic.Worker", "services\SyncElastic\SyncElastic.Worker\SyncElastic.Worker.csproj", "{D2344A00-17C1-43DD-89C3-7A1A1A4CE034}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileApp", "clients\MobileApp\MobileApp.csproj", "{CFF05FF3-9E12-4906-90EA-CB99114EAE84}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,7 @@ Global
 		{494674C0-039B-41F1-8E24-C36058954717} = {0BA596CA-CE7C-4F1E-BE5B-69187DD8BE5E}
 		{1026D277-B9D1-45DF-8D94-90145C6EA112} = {494674C0-039B-41F1-8E24-C36058954717}
 		{D2344A00-17C1-43DD-89C3-7A1A1A4CE034} = {494674C0-039B-41F1-8E24-C36058954717}
+		{CFF05FF3-9E12-4906-90EA-CB99114EAE84} = {1F45EC6B-7391-417D-BFAA-66C73A78729C}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6B1EA84D-B3A5-4E24-A12A-E7A545657BFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -146,5 +149,9 @@ Global
 		{D2344A00-17C1-43DD-89C3-7A1A1A4CE034}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2344A00-17C1-43DD-89C3-7A1A1A4CE034}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2344A00-17C1-43DD-89C3-7A1A1A4CE034}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFF05FF3-9E12-4906-90EA-CB99114EAE84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFF05FF3-9E12-4906-90EA-CB99114EAE84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFF05FF3-9E12-4906-90EA-CB99114EAE84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFF05FF3-9E12-4906-90EA-CB99114EAE84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
