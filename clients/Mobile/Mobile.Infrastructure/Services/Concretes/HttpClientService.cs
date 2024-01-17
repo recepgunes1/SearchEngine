@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Text.Json;
 using Microsoft.Extensions.Configuration;
@@ -43,7 +44,7 @@ public class HttpClientService : IHttpClientService
         }
     }
 
-    public async Task<List<string>> GetSuggestions(string input)
+    public async Task<ObservableCollection<SuggestionModel>> GetSuggestions(string input)
     {
         try
         {
@@ -55,12 +56,12 @@ public class HttpClientService : IHttpClientService
 
             response.EnsureSuccessStatusCode();
 
-            if (!response.IsSuccessStatusCode) return new List<string>();
+            if (!response.IsSuccessStatusCode) return new ();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
             if (!string.IsNullOrEmpty(jsonResponse) && !string.IsNullOrWhiteSpace(jsonResponse))
-                return JsonSerializer.Deserialize<List<string>>(jsonResponse) ?? new List<string>();
+                return JsonSerializer.Deserialize<ObservableCollection<SuggestionModel>>(jsonResponse) ?? new();
 
             return new();
         }
@@ -111,9 +112,9 @@ public class HttpClientService : IHttpClientService
 
             return result;
         }
-        catch
+        catch(Exception ex)
         {
-            return "An error was occured";
+            return ex.Message;
         }
     }
 }
