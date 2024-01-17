@@ -96,10 +96,9 @@ services:
     image: searchengine/client.webapp
     build:
       context: .
-      dockerfile: clients/WebApp/Dockerfile
+      dockerfile: clients/Web/Web.App/Dockerfile
     networks:
       - fronted
     environment:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
     restart: always
-

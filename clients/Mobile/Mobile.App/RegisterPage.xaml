@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Mobile.App.RegisterPage">
+    <StackLayout Padding="20" Spacing="10">
+        <Label HorizontalTextAlignment="Start"
+               TextColor="Black"
+               Text="Url Registration Page"
+               LineBreakMode="WordWrap"
+               FontFamily="Lobster-Bold"
+               FontAttributes="Bold" />
+
+        <Label HorizontalTextAlignment="Start"
+               TextColor="Black"
+               Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sodales turpis felis. Integer convallis sem tortor."
+               LineBreakMode="WordWrap"
+               Margin="0,0,0,50" />
+
+        <Entry x:Name="EntryUrl" Placeholder="Enter a url" />
+        <Button Text="Register Url" x:Name="ButtonRegister" Clicked="ButtonRegister_OnClicked" />
+    </StackLayout>
+</ContentPage>

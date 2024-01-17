@@ -1,0 +1,102 @@
+@page "/Result"
+@using Microsoft.AspNetCore.WebUtilities
+@using Web.Infrastructure.Models
+@using Web.Infrastructure.Services.Abstracts
+@inject IHttpClientService ClientService
+@inject NavigationManager NavManager
+@rendermode InteractiveServer
+
+@if (_resultModels.Any())
+{
+    <div class="row justify-content-center align-items-center mt-3">
+        <div class="col-10 text-left">
+            @foreach (var model in _resultModels)
+            {
+                <div class="row bg-light border border-1 rounded shadow my-5">
+                    <h4 class="border-bottom m-1">
+                        <span @onclick="RedirectToLink">
+                            @{
+                                void RedirectToLink()
+                                {
+                                    NavManager.NavigateTo(model.Link, true);
+                                }
+                            }
+                            @model.Title
+                        </span>
+                    </h4>
+                    <p class="text">
+                        @model.Explanation
+                    </p>
+                </div>
+            }
+        </div>
+    </div>
+
+    <div class="row align-items-center">
+        <div class="col text-end">
+            @if (_currentPage > 1)
+            {
+                <button class="btn btn-info" @onclick="BackToPrevious">
+                    @{
+                        void BackToPrevious()
+                        {
+                            NavManager.NavigateTo($"/result?input={_input}&page={_currentPage - 1}&pageSize={_pageSize}", true);
+                        }
+                    }
+                    Previous
+                </button>
+            }
+            else
+            {
+                <button class="btn btn-info disabled">Previous</button>
+            }
+        </div>
+        <div class="col text-start">
+            <button class="btn btn-info" @onclick="GoToNext">
+                @{
+                    void GoToNext()
+                    {
+                        NavManager.NavigateTo($"/result?input={_input}&page={_currentPage + 1}&pageSize={_pageSize}", true);
+                    }
+                }
+                Next
+            </button>
+        </div>
+    </div>
+}
+else
+{
+    <p>There is no result here.</p>
+}
+
+@code {
+
+    private string _input = string.Empty;
+    private int _currentPage = 1;
+    private int _pageSize = 10;
+    private List<ResultModel> _resultModels = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("input", out var input))
+        {
+            _input = input.ToString();
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("page", out var page))
+        {
+            _currentPage = Convert.ToInt32(page);
+        }
+
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("pageSize", out var pageSize))
+        {
+            _pageSize = Convert.ToInt32(pageSize);
+        }
+
+        _resultModels = await ClientService.GetResults(_input, _currentPage, _pageSize);
+
+        await base.OnInitializedAsync();
+    }
+
+}
