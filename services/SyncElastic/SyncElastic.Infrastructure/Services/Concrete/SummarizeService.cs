@@ -30,8 +30,9 @@ public class SummarizeService(IConfiguration configuration) : ISummarizeService
                 PropertyNameCaseInsensitive = false,
                 AllowTrailingCommas = true
             };
-            var resultFromSummarizeApi = JsonSerializer.Deserialize<ResultFromSummarizeApi>(jsonResponse, options) ?? new();
-            
+            var resultFromSummarizeApi = JsonSerializer.Deserialize<ResultFromSummarizeApi>(jsonResponse, options) ??
+                                         new ResultFromSummarizeApi();
+
             return resultFromSummarizeApi.Summary;
         }
         catch

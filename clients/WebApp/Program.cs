@@ -1,4 +1,5 @@
 using WebApp.Components;
+using WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 builder.Services.AddHttpClient();
+builder.Services.AddScoped<IHttpClientService, HttpClientService>();
 
 var app = builder.Build();
 
