@@ -5,7 +5,6 @@ namespace Mobile.App;
 public partial class SearchPage : ContentPage
 {
     private readonly IHttpClientService _httpClientService;
-
     public SearchPage(IHttpClientService httpClientService)
     {
         _httpClientService = httpClientService;
@@ -31,14 +30,5 @@ public partial class SearchPage : ContentPage
 
         var answer = await DisplayAlert("Information", $"There is no page for {InputBar.Text}", "Accept", "Cancel");
         if (answer) InputBar.Text = string.Empty;
-    }
-
-    private async void InputBar_OnTextChanged(object sender, TextChangedEventArgs e)
-    {
-        var results = await _httpClientService.GetSuggestions(InputBar.Text);
-        if (results.Count <= 0) return;
-
-        ListViewSuggestions.IsVisible = true;
-        ListViewSuggestions.ItemsSource = results;
     }
 }

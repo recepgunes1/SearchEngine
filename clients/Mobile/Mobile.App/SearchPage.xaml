@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Mobile.App.SearchPage">
     <StackLayout Padding="20" Spacing="10">
+
         <Label HorizontalTextAlignment="Center"
                TextColor="Black"
                FontSize="38"
@@ -16,15 +17,13 @@
         <SearchBar x:Name="InputBar"
                    Placeholder="Enter search term..."
                    SearchButtonPressed="InputBar_OnSearchButtonPressed"
-                   TextChanged="InputBar_OnTextChanged"
                    BackgroundColor="White"
                    TextColor="Black"
                    PlaceholderColor="Gray"
                    CancelButtonColor="Blue" />
-
-        <ListView x:Name="ListViewSuggestions" IsVisible="False" />
-
+        
         <Button Text="I Feel Lucky"
                 x:Name="LuckyButton" Clicked="LuckyButton_OnClicked" />
+        
     </StackLayout>
 </ContentPage>

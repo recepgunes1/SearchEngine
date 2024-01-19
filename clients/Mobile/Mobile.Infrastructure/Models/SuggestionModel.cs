@@ -2,5 +2,5 @@ namespace Mobile.Infrastructure.Models;
 
 public class SuggestionModel
 {
-    public string Value { get; set; } = null!;
+    public string SuggestedInput { get; set; } = null!;
 }

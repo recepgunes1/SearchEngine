@@ -60,10 +60,11 @@ public class HttpClientService : IHttpClientService
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
-            if (!string.IsNullOrEmpty(jsonResponse) && !string.IsNullOrWhiteSpace(jsonResponse))
-                return JsonSerializer.Deserialize<ObservableCollection<SuggestionModel>>(jsonResponse) ?? new();
-
-            return new();
+            if (string.IsNullOrEmpty(jsonResponse) || string.IsNullOrWhiteSpace(jsonResponse)) return new();
+            
+            var temp = JsonSerializer.Deserialize<IEnumerable<string>>(jsonResponse) ?? Enumerable.Empty<string>();
+            
+            return new ObservableCollection<SuggestionModel>(temp.Select(p => new SuggestionModel{SuggestedInput = p}));
         }
         catch
         {
