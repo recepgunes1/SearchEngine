@@ -40,7 +40,7 @@ public class HttpClientService : IHttpClientService
         }
         catch
         {
-            return new();
+            return new List<ResultModel>();
         }
     }
 
@@ -56,19 +56,21 @@ public class HttpClientService : IHttpClientService
 
             response.EnsureSuccessStatusCode();
 
-            if (!response.IsSuccessStatusCode) return new ();
+            if (!response.IsSuccessStatusCode) return new ObservableCollection<SuggestionModel>();
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
-            if (string.IsNullOrEmpty(jsonResponse) || string.IsNullOrWhiteSpace(jsonResponse)) return new();
-            
+            if (string.IsNullOrEmpty(jsonResponse) || string.IsNullOrWhiteSpace(jsonResponse))
+                return new ObservableCollection<SuggestionModel>();
+
             var temp = JsonSerializer.Deserialize<IEnumerable<string>>(jsonResponse) ?? Enumerable.Empty<string>();
-            
-            return new ObservableCollection<SuggestionModel>(temp.Select(p => new SuggestionModel{SuggestedInput = p}));
+
+            return new ObservableCollection<SuggestionModel>(
+                temp.Select(p => new SuggestionModel { SuggestedInput = p }));
         }
         catch
         {
-            return new();
+            return new ObservableCollection<SuggestionModel>();
         }
     }
 
@@ -113,7 +115,7 @@ public class HttpClientService : IHttpClientService
 
             return result;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             return ex.Message;
         }

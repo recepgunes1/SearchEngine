@@ -99,6 +99,7 @@ public class ElasticService : IElasticService
                         .Field(p => p.Tags)
                         .Field(p => p.InnerText)
                     )
+                    .Fuzziness(Fuzziness.Auto)
                 )
             )
             .Source(src => src

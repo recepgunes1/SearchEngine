@@ -5,6 +5,7 @@ namespace Mobile.App;
 public partial class SearchPage : ContentPage
 {
     private readonly IHttpClientService _httpClientService;
+
     public SearchPage(IHttpClientService httpClientService)
     {
         _httpClientService = httpClientService;

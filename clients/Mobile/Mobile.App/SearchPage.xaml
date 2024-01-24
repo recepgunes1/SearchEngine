@@ -21,9 +21,9 @@
                    TextColor="Black"
                    PlaceholderColor="Gray"
                    CancelButtonColor="Blue" />
-        
+
         <Button Text="I Feel Lucky"
                 x:Name="LuckyButton" Clicked="LuckyButton_OnClicked" />
-        
+
     </StackLayout>
 </ContentPage>

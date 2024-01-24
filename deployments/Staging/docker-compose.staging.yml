@@ -1,6 +1,14 @@
 networks:
   backend:
 
+volumes:
+  urlregister.database_data:
+  pagedownloader.database_data:
+  urlextractor.database_data:
+  tagextractor.database_data:
+  elasticsearch_data:
+  rabbitmq_data:
+
 services:
   urlregister.database:
     image: searchengine/urlregister.database
@@ -16,6 +24,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     networks:
       - backend
+    volumes:
+      - urlregister.database_data:/var/lib/postgresql/data
 
   pagedownloader.database:
     image: searchengine/pagedownloader.database
@@ -31,6 +41,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     networks:
       - backend
+    volumes:
+      - pagedownloader.database_data:/var/lib/postgresql/data
 
   urlextractor.database:
     image: searchengine/urlextractor.database
@@ -46,6 +58,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     networks:
       - backend
+    volumes:
+      - urlextractor.database_data:/var/lib/postgresql/data
 
   tagextractor.database:
     image: searchengine/tagextractor.database
@@ -61,6 +75,8 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     networks:
       - backend
+    volumes:
+      - tagextractor.database_data:/var/lib/postgresql/data
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
@@ -73,7 +89,10 @@ services:
       - "9300:9300"
     networks:
       - backend
-    
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    restart: always
+
   rabbitmq:
     image: rabbitmq:3.12-management
     hostname: rabbitmq
@@ -82,6 +101,9 @@ services:
       - "15672:15672"
     networks:
       - backend
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    restart: always
 
   gateway.webapi:
     ports:
@@ -102,3 +124,8 @@ services:
     ports:
       - "8080:8080"
       - "8081:8081"
+
+  pagedownloader.worker:
+    deploy:
+      mode: replicated
+      replicas: 2

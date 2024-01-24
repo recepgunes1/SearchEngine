@@ -32,7 +32,7 @@ public class HttpClientService(IConfiguration configuration) : IHttpClientServic
         }
         catch
         {
-            return new();
+            return new List<ResultModel>();
         }
     }
 
@@ -55,11 +55,11 @@ public class HttpClientService(IConfiguration configuration) : IHttpClientServic
             if (!string.IsNullOrEmpty(jsonResponse) && !string.IsNullOrWhiteSpace(jsonResponse))
                 return JsonSerializer.Deserialize<List<string>>(jsonResponse) ?? new List<string>();
 
-            return new();
+            return new List<string>();
         }
         catch
         {
-            return new();
+            return new List<string>();
         }
     }
 

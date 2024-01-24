@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <manifest package="maui-application-id-placeholder" version="0.0.0" api-version="7"
           xmlns="http://tizen.org/ns/packages">
     <profile name="common"/>
